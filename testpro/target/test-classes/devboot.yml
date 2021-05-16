@@ -1,0 +1,40 @@
+env:
+  _APP_LOG_DIR: target/log
+  HOSTNAME: localhost
+  PROCESS_NAME: app
+  NODE_ID: localhost
+  PROCESS_SLOT: process
+  APP_ROOT: src/test/resources/
+  NAAS_HOME: src/test/resources/controller
+  HOSTING_SERVER_IP: 127.0.0.1
+  CONTAINER_PORT: 32018
+  HIBERNATE_CFG_XML: /hibernate.cfg.xml
+  IS_SPRING: true
+  bsp.app.datasource: dcntopopersistentdb
+
+prop:
+  bsp.app.datasource: dcntopopersistentdb
+  NFW: SnapshotService
+  WEB_XML_FILE: src/test/resources/WEB-INF/web.xml
+  LOG4j2_PATH: src/test/resources/log4j2.xml
+
+datasource:
+  framework: hibernate
+  type: h2
+  url: jdbc:h2:mem:dcntopopersistentdb;DB_CLOSE_DELAY=-1
+  username: sa
+  password: sa
+
+flyway:
+  locations: classpath:db/migration
+  enabled: true
+  url: jdbc:h2:mem:dcntopopersistentdb;DB_CLOSE_DELAY=-1
+  username: sa
+  password: sa
+
+embeddedkafka:
+  enabled: true
+  listeners: PLAINTEXT://localhost:9092
+  topics: test_topic1
+
+appPath: target/

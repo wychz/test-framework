@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<Configuration status="info" packages="com.huawei.bsp.log4j.extend">-->
+<Configuration status="info" packages="org.slf4j">
+    <Appenders>
+        <OssRollingFileAppender name="root" fileName="log/root" filePermissions="rw-r-----" zipPermissions="r--r-----" append="true">
+            <PatternLayout pattern="%d %-5p [%t][%X{moduleID}][%C %L] %replace{%replace{%maxLen{%m}{2000}}{(\r?\n)}{$1... }}{\r+([^\n])}{\\r$1} %replace{%replace{%ex}{(\r?\n)}{$1... }}{\r+([^\n])}{\\r$1} %xEx{none} %n"/>
+            <SizeBasedTriggeringPolicy size="10MB"/>
+            <OSSRolloverStrategy max="30"></OSSRolloverStrategy>
+        </OssRollingFileAppender>
+        <OssRollingFileAppender name="log4operation" fileName="operation/log4operation-System" filePermissions="rw-r-----" zipPermissions="r--r-----">
+            <PatternLayout pattern="%d %-5p [%t][%X{moduleID}][%C %L] %replace{%replace{%maxLen{%m}{2000}}{(\r?\n)}{$1... }}{\r+([^\n])}{\\r$1} %replace{%replace{%ex}{(\r?\n)}{$1... }}{\r+([^\n])}{\\r$1} %xEx{none} %n"/>
+            <SizeBasedTriggeringPolicy size="10MB"/>
+            <OSSRolloverStrategy max="10"></OSSRolloverStrategy>
+        </OssRollingFileAppender>
+        <OssRollingFileAppender name="apploader" fileName="log/apploader" filePermissions="rw-r-----" zipPermissions="r--r-----" append="true">
+            <PatternLayout pattern="%d %-5p [%t][%X{moduleID}][%C %L] %replace{%replace{%maxLen{%m}{10000}}{(\r?\n)}{$1... }}{\r+([^\n])}{\\r$1} %replace{%replace{%ex}{(\r?\n)}{$1... }}{\r+([^\n])}{\\r$1} %xEx{none} %n"/>
+            <SizeBasedTriggeringPolicy size="10MB"/>
+            <OSSRolloverStrategy max="5"></OSSRolloverStrategy>
+        </OssRollingFileAppender>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %-5p [%t][%X{moduleID}][%C %L] %replace{%replace{%maxLen{%m}{2000}}{(\r?\n)}{$1... }}{\r+([^\n])}{\\r$1} %replace{%replace{%ex}{(\r?\n)}{$1... }}{\r+([^\n])}{\\r$1} %xEx{none} %n"/>
+            <!--                <PatternLayout pattern = "${console-pattern}"/>-->
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="DEBUG">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="root"/>
+        </Root>
+        <Logger name="org.apache.kafka.clients.NetworkClient" level="DEBUG" additivity="false">
+        </Logger>
+        <Logger name="com.intuit.karate" level="DEBUG" additivity="true">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="root"/>
+        </Logger>
+        <Logger name="com.huawei.bsp" level="DEBUG" additivity="true">
+            <AppenderRef ref="apploader" />
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="root"/>
+        </Logger>
+        <Logger name="com.huawei.sdn.acdcn" level="DEBUG" additivity="true">
+            <AppenderRef ref="apploader" />
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="root"/>
+        </Logger>
+        <Logger name="com.huawei.sdn.acdcn.common.dao.AcHibernateUtil" level="DEBUG" additivity="false">
+            <AppenderRef ref="apploader" />
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="root"/>
+        </Logger>
+
+        <Logger name="javax.servlet.ServletContext" level="DEBUG" additivity="true">
+            <AppenderRef ref="apploader" />
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="root"/>
+        </Logger>
+        <Logger name="org.apache" level="DEBUG" additivity="true">
+            <AppenderRef ref="apploader" />
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="root"/>
+        </Logger>
+        <Logger name="org.glassfish" level="DEBUG" additivity="true">
+            <AppenderRef ref="apploader" />
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="root"/>
+        </Logger>
+
+        <Logger name="com.huawei.enterprise.component.manager" level="DEBUG" additivity="true">
+            <AppenderRef ref="apploader" />
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="root"/>
+        </Logger>
+
+        <Logger name="org.springframework.beans.factory.xml" level="DEBUG" additivity="true">
+            <AppenderRef ref="apploader" />
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="root"/>
+        </Logger>
+
+
+        <Logger name="com.huawei.cloudsopdevboot" level="DEBUG" additivity="true">
+            <AppenderRef ref="apploader" />
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="root"/>
+        </Logger>
+
+        <Logger name="com.huawei.enterprise.component.manager" level="DEBUG" additivity="true">
+            <AppenderRef ref="apploader" />
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="root"/>
+        </Logger>
+        <Logger name="org.springframework.beans.factory.support" level="DEBUG" additivity="true">
+            <AppenderRef ref="apploader" />
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="root"/>
+        </Logger>
+        <Logger name="acceptancetest" level="DEBUG" additivity="true">
+            <AppenderRef ref="apploader" />
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="root"/>
+        </Logger>
+
+    </Loggers>
+</Configuration>

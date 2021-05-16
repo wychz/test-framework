@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+    <!--    <import resource="classpath:/spring/context.xml"/>-->
+
+    <!--    <bean id="myBatisMapperLoader" class="com.huawei.cloudsopdevboot.db.MyBatisMapperLoader">-->
+    <!--    </bean>-->
+    <import resource="classpath*:/spring/applicationContext.xml"/>
+
+    <bean id="h2dataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
+        <constructor-arg>
+            <bean class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+                <property name="driverClass" value="org.h2.Driver" />
+                <property name="url" value="jdbc:h2:mem:${bsp.app.datasource};DB_CLOSE_DELAY=-1" />
+                <property name="username" value="sa" />
+                <property name="password" value="sa" />
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean id="h2DataSourceInstaller" class="com.iiichz.devboot.db.H2DataSourceInstaller">
+        <constructor-arg name="dbname" value="${bsp.app.datasource}"/>
+        <constructor-arg name="dataSource" ref="h2dataSource"></constructor-arg>
+    </bean>
+
+
+    <bean id="flyway" class="org.flywaydb.core.Flyway">
+        <property name="baselineOnMigrate" value="true" />
+        <property name="locations" value="classpath:/db/migration" />
+        <property name="dataSource" ref="h2dataSource" />
+    </bean>
+
+    <bean id="h2Console" class="com.iiichz.devboot.db.H2Console" init-method="executeMigrate">
+        <constructor-arg ref="flyway"></constructor-arg>
+    </bean>
+
+    <bean id="rpc" class="com.iiichz.microservicedevtest.javamethod.api.Rpc"/>
+
+    <import resource="classpath:/spring/service.xml"/>
+</beans>
